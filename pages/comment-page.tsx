@@ -1,20 +1,9 @@
 import Layout from '../components/Layout'
-import useSWR from 'swr'
-import axios from 'axios'
 import Comment from '../components/Comment'
-import { COMMENT } from '../types/Types'
-
-const axiosFetcher = async () => {
-  const result = await axios.get<COMMENT[]>(
-    'https://jsonplaceholder.typicode.com/comments/?_limit=10'
-  )
-  return result.data
-}
+import { useSWRCommentsState } from '../swr/useSWRCommentsState'
 
 const CommentPage: React.FC = () => {
-  // useSWR で client side fetching
-  // options https://swr.vercel.app/docs/options
-  const { data: comments, error } = useSWR('commentsFetch', axiosFetcher)
+  const { comments, error } = useSWRCommentsState()
 
   if (error) return <span>Error!</span>
 
